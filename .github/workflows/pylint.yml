@@ -1,10 +1,6 @@
 name: Pipeline Actions
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: [push]
 
 jobs:
   pre-commit:
