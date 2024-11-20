@@ -132,5 +132,3 @@ jobs:
     - name: Running Acceptance Tests
       run: |  
         coverage run -m pytest -v -s acceptance_test.py
-      run: |
-        pip install dist/*.whl
