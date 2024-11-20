@@ -132,17 +132,5 @@ jobs:
     - name: Running Acceptance Tests
       run: |  
         coverage run -m pytest -v -s acceptance_test.py
-
-  fetch-and-install-wheel:
-    runs-on: ubuntu-latest
-    needs: acceptance-tests 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Download .whl Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: image-classifier-wheel
-        path: dist
-    - name: Install .whl file
       run: |
         pip install dist/*.whl
