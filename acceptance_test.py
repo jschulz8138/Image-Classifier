@@ -16,13 +16,30 @@ IMAGE_TEST = "static/test_img/plane0.png"
 
 def test_upload_and_classify_images():
     """This module handles the upload acceptance testing."""
+    client = app.test_client()
+    client.testing = True
+    
     actual = result(IMAGE_TEST)
 
-    class_names = ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
-    assert actual in class_names, f"Unexpected classification result: {actual}"
+    # Fetch the CSRF token
+    response = client.get("/")
+    csrf_token = (
+        response.data.decode().split('name="csrf_token" value="')[1].split('"')[0]
+    )
+
+    #Rest to save an image
+    with open(IMAGE_TEST, "rb") as img_file:
+        data = {
+            "file": (img_file, IMAGE_TEST),
+            "csrf_token": csrf_token
+        }
+    response = client.post("/", data=data, content_type="multipart/form-data")
+    
+    assert response.status_code == 200
+    assert b"Result:" in response.data  # Verifying "Result:" is in the HTML response
 
 
-#Gerkin Acceptance Test One
+#Gerkin Acceptance Test Two
 #
 #Unsupported File Format
 #
@@ -35,6 +52,22 @@ def test_unsupported_file_format():
     """This module handles the testing of file formats"""
     unsupported_file_path = "test_images/document.txt"
 
+        # Fetch the CSRF token
+    response = client.get("/")
+    csrf_token = (
+        response.data.decode().split('name="csrf_token" value="')[1].split('"')[0]
+    )
+
+    #Rest to save an image
+    with open(IMAGE_TEST, "rb") as img_file:
+        data = {
+            "file": (img_file, IMAGE_TEST),
+            "csrf_token": csrf_token
+        }
+    response = client.post("/", data=data, content_type="multipart/form-data")
+
     # Call the classify function and expect an error
     with pytest.raises(cv2.error, match=r".*resize.cpp.*Assertion failed.*ssize.empty\(\).*"): # pylint: disable=no-member
         result(unsupported_file_path)
+
+    assert isinstance(cv2.error, Exception)
