@@ -1,3 +1,7 @@
+"""
+Setup script for the Image Classifier package.
+"""
+
 from setuptools import setup, find_packages
 
 setup(
