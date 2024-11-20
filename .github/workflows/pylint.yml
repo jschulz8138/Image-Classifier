@@ -38,7 +38,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: image-classifier
-        path: artifact
+        path: dist
       continue-on-error: false
 
   unit-tests:
@@ -57,10 +57,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: image-classifier
-        path: artifact
+        path: dist
     - name: Install whl files
       run: |
-        python -m pip install artifact/*.whl
+        python -m pip install dist/*.whl
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
@@ -85,10 +85,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: image-classifier
-        path: artifact
+        path: dist
     - name: Install whl files
       run: |
-        python -m pip install artifact/*.whl
+        python -m pip install dist/*.whl
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
@@ -113,10 +113,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: image-classifier
-        path: artifact
+        path: dist
     - name: Install whl files
       run: |
-        python -m pip install artifact/*.whl
+        python -m pip install dist/*.whl
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
@@ -133,7 +133,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: image-classifier-wheel
-        path: ./artifact
+        path: dist
     - name: Install .whl file
       run: |
-        pip install ./artifact/*.whl
+        pip install dist/*.whl
