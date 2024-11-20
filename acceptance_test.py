@@ -22,7 +22,7 @@ def test_upload_and_classify_images():
 
     # Fetch the CSRF token
     response = client.get("/")
-    csrf_token = (response.data.decode().split('name="csrf_token" value="')[1].split('"')[0])
+    csrf_token = response.data.decode().split('name="csrf_token" value="')[1].split('"')[0]
 
     #Rest to save an image
     with open(IMAGE_TEST, "rb") as img_file:
@@ -46,9 +46,12 @@ def test_unsupported_file_format():
     """This module handles the testing of file formats"""
     unsupported_file_path = "test_images/document.txt"
 
-        # Fetch the CSRF token
+    client = app.test_client()
+    client.testing = True
+
+    # Fetch the CSRF token
     response = client.get("/")
-    csrf_token = (response.data.decode().split('name="csrf_token" value="')[1].split('"')[0])
+    csrf_token = response.data.decode().split('name="csrf_token" value="')[1].split('"')[0]
 
     #Rest to save an image
     with open(IMAGE_TEST, "rb") as img_file:
