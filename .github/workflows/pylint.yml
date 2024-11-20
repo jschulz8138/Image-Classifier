@@ -64,6 +64,9 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
+    - name: Training Model
+      run: |
+          python model_creation.py
     - name: Running Unit Tests
       run: |  
         coverage run -m pytest -v -s unit_test.py
@@ -92,6 +95,9 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
+    - name: Training Model
+      run: |
+          python model_creation.py
     - name: Running Happy & Sad Path Tests
       run: |  
         coverage run -m pytest -v -s happy_sad_test.py
@@ -120,6 +126,9 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
+    - name: Training Model
+      run: |
+          python model_creation.py
     - name: Running Acceptance Tests
       run: |  
         coverage run -m pytest -v -s acceptance_test.py
