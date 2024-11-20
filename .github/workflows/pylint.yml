@@ -32,7 +32,7 @@ jobs:
         pre-commit install
     - name: Ensure Artifact Directory
       run: mkdir -p ./artifact
-    - name: Check for Existing Trained Model
+    - name: Train Model
       run: |
         if [ -f "./artifact/model.pkl" ]; then
           echo "Model already exists, skipping training."
@@ -40,10 +40,17 @@ jobs:
           echo "Model does not exist, training..."
           python model_creation.py
         fi
-    - name: Debug File Existence
+    - name: Debug Trained Model Existence
       run: |
-        echo "Listing files in ./artifact:"
-        ls -R ./artifact || echo "Directory is empty."
+        echo "Checking artifact directory:"
+        ls -R ./artifact
+        echo "Expected model file:"
+        if [ -f "./artifact/model.pkl" ]; then
+          echo "model.pkl found."
+        else
+          echo "Error: model.pkl not found."
+          exit 1
+        fi
     - name: Upload Trained Model
       uses: actions/upload-artifact@v3
       with:
@@ -53,6 +60,7 @@ jobs:
       run: |
         pylint $(git ls-files '*.py')
       continue-on-error: false
+
 
   unit-tests:
     runs-on: ubuntu-latest
