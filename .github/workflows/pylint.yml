@@ -71,6 +71,10 @@ jobs:
       run: |  
         coverage run -m pytest -v -s unit_test.py
       continue-on-error: false
+    - name: Debug File Existence
+      run: |
+        echo "Listing files in ./artifact:"
+        ls -R ./artifact
     - name: Upload .whl Artifact
       uses: actions/upload-artifact@v3
       with:
