@@ -72,11 +72,17 @@ jobs:
       run: |  
         coverage run -m pytest -v -s unit_test.py
       continue-on-error: false
+    - name: Debug File Existence
+      run: |
+        echo "Listing files in ./artifact:"
+        ls -R ./artifact
+    - name: Ensure Artifact Directory
+      run: mkdir -p ./artifact
     - name: Upload Trained Model
       uses: actions/upload-artifact@v3
       with:
         name: trained-model
-        path: ./artifact
+        path: ./artifact/model.pkl
   
   happy-sad-path-tests:
     runs-on: ubuntu-latest
