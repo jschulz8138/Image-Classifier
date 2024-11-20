@@ -60,29 +60,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install numpy opencv-python matplotlib tensorflow flask pylint pytest coverage flask-wtf
-    - name: Check for Existing Trained Model
+    - name: Training Model
       run: |
-        if [ -f "./artifact/model.pkl" ]; then
-          echo "Model already exists, skipping training."
-        else
-          echo "Model does not exist, training..."
           python model_creation.py
-        fi
     - name: Running Unit Tests
       run: |  
         coverage run -m pytest -v -s unit_test.py
       continue-on-error: false
-    - name: Debug File Existence
-      run: |
-        echo "Listing files in ./artifact:"
-        ls -R ./artifact
-    - name: Ensure Artifact Directory
-      run: mkdir -p ./artifact
-    - name: Upload Trained Model
-      uses: actions/upload-artifact@v3
-      with:
-        name: trained-model
-        path: ./artifact/model.pkl
   
   happy-sad-path-tests:
     runs-on: ubuntu-latest
@@ -109,11 +93,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install numpy opencv-python matplotlib tensorflow flask pylint pytest coverage flask-wtf
-    - name: Download Trained Model
-      uses: actions/download-artifact@v3
-      with:
-        name: trained-model
-        path: ./artifact
+    - name: Training Model
+      run: |
+          python model_creation.py
     - name: Running Happy & Sad Path Tests
       run: |  
         coverage run -m pytest -v -s happy_sad_test.py
@@ -144,6 +126,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install numpy opencv-python matplotlib tensorflow flask pylint pytest coverage flask-wtf
+    - name: Training Model
+      run: |
+          python model_creation.py
     - name: Running Acceptance Tests
       run: |  
         coverage run -m pytest -v -s acceptance_test.py
