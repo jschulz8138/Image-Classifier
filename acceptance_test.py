@@ -20,9 +20,14 @@ def test_upload_and_classify_images():
     client = app.test_client()
     client.testing = True
 
-    # Prepare data with the file and CSRF token
-    img_file = open(IMAGE_TEST, "rb")  # Open without `with` to keep it open
-    data = {"file": (img_file, IMAGE_TEST), "csrf_token": csrf_token}
+    # Fetch the CSRF token
+    response = client.get("/")
+    csrf_token = response.data.decode().split('name="csrf_token" value="')[1].split('"')[0]
+
+    # Open the image file for uploading
+    with open(IMAGE_TEST, "rb") as img_file:
+        data = {"file": (img_file, IMAGE_TEST), "csrf_token": csrf_token}
+        response = client.post("/", data=data, content_type="multipart/form-data")
 
     assert response.status_code == 200
     assert b"Result:" in response.data  # Verifying "Result:" is in the HTML response
@@ -45,9 +50,13 @@ def test_unsupported_file_format():
     client.testing = True
 
     # Fetch the CSRF token
-    # Prepare data with the file and CSRF token
-    img_file = open(IMAGE_TEST, "rb")  # Open without `with` to keep it open
-    data = {"file": (img_file, IMAGE_TEST), "csrf_token": csrf_token}
+    response = client.get("/")
+    csrf_token = response.data.decode().split('name="csrf_token" value="')[1].split('"')[0]
+
+    # Open the image file for uploading
+    with open(IMAGE_TEST, "rb") as img_file:
+        data = {"file": (img_file, IMAGE_TEST), "csrf_token": csrf_token}
+        response = client.post("/", data=data, content_type="multipart/form-data")
 
     # Call the classify function and expect an error
     with pytest.raises(cv2.error, match=r".*resize.cpp.*Assertion failed.*ssize.empty\(\).*"): # pylint: disable=no-member
