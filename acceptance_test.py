@@ -61,4 +61,4 @@ def test_unsupported_file_format():
     # Call the classify function and expect an error
     with pytest.raises(cv2.error, match=r".*resize.cpp.*Assertion failed.*ssize.empty\(\).*"): # pylint: disable=no-member
         result(unsupported_file_path)
-    assert issubclass(cv2.error, BaseException)
+    assert issubclass(cv2.error, BaseException) # pylint: disable=no-member
