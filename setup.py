@@ -1,5 +1,6 @@
-import os
-
+"""
+This module handles something
+"""
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
