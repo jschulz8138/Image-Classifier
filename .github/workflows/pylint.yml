@@ -28,9 +28,9 @@ jobs:
     - name: Linting
       run: |
         pylint $(git ls-files '*.py')
-    - name: Training Model
-      run: |
-          python model_creation.py
+    #- name: Training Model
+    #  run: |
+    #      python model_creation.py
 
       # Build here
     - name: Package creation
