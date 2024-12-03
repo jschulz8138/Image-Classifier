@@ -46,8 +46,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: build and push docker
       run: |
-        docker image build -t image-classifier-docker .
-        docker tag image-classifier-docker ${{ vars.DOCKERHUB_USERNAME }}/image-classifier-docker
+        docker image build -t ${{ vars.DOCKERHUB_USERNAME }}/image-classifier-docker:latest .
         docker push ${{ vars.DOCKERHUB_USERNAME }}/image-classifier-docker
       continue-on-error: false
 
