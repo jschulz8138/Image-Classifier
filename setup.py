@@ -1,7 +1,7 @@
 """
-Setup script for the Image Classifier package.
+This module handles something
 """
-from setuptools import setup, find_packages
+import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -15,7 +15,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/jschulz8138/Image-Classifier",
     packages=setuptools.find_packages(),
-    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
