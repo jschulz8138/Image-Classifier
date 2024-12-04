@@ -8,3 +8,4 @@ pytest
 coverage
 flask-wtf
 pre-commit
+locust
